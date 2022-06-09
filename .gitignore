@@ -1,2 +1,6 @@
-.idea
+.idea/
+out/
 *.iml
+.class
+.gitattributes
+target
