@@ -1,19 +1,19 @@
 package com.solvd.atm.bin.common;
 
 import java.util.Objects;
-import util.enums.Sex;
+
 
 public abstract class Person {
 
     private String firstName;
     private String lastName;
     private int age;
-    private Sex sex;
+    private char sex;
 
     public Person() {
     }
 
-    public Person(String firstName, String lastName, int age, Sex sex) {
+    public Person(String firstName, String lastName, int age, char sex) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
