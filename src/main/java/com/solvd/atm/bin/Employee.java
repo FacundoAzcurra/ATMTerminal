@@ -2,6 +2,7 @@ package com.solvd.atm.bin;
 
 import com.solvd.atm.bin.common.Person;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Employee extends Person {
@@ -12,8 +13,8 @@ public class Employee extends Person {
         this.employeeId = employeeId;
     }
 
-    public Employee(String firstName, String lastName, int age, char sex, int employeeId) {
-        super(firstName, lastName, age, sex);
+    public Employee(String firstName, String lastName, Date birthday, char sex, int employeeId) {
+        super(firstName, lastName, birthday, sex);
         this.employeeId = employeeId;
     }
 

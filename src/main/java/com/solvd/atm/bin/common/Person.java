@@ -1,5 +1,6 @@
 package com.solvd.atm.bin.common;
 
+import java.sql.Date;
 import java.util.Objects;
 
 
@@ -7,16 +8,16 @@ public abstract class Person {
 
     private String firstName;
     private String lastName;
-    private int age;
+    private Date birthday;
     private char sex;
 
     public Person() {
     }
 
-    public Person(String firstName, String lastName, int age, char sex) {
+    public Person(String firstName, String lastName, Date birthday, char sex) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
+        this.birthday = birthday;
         this.sex = sex;
     }
 
@@ -36,12 +37,12 @@ public abstract class Person {
         this.lastName = lastName;
     }
 
-    public int getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public char getSex() {
@@ -57,12 +58,12 @@ public abstract class Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return age == person.age && sex == person.sex && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
+        return birthday == person.birthday && sex == person.sex && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, age, sex);
+        return Objects.hash(firstName, lastName, birthday, sex);
     }
 
     @Override
@@ -70,7 +71,7 @@ public abstract class Person {
         return "Person{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", age=" + age +
+                ", birthday=" + birthday +
                 ", sex=" + sex +
                 '}';
     }
