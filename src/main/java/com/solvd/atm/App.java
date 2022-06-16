@@ -40,11 +40,13 @@ public class App {
                     double accountBalance = accountsDAO.getObject(accountId).getBalance();
                     String fullName1 = accountsDAO.getObject(accountId).getFullName();
                     int cardNumber = accountsDAO.getObject(accountId).getCardNumber();
-                    Account account1 = new Account(accountId,accountBalance,fullName1,cardNumber);
+                    int userId = accountsDAO.getObject(accountId).getUserId();
+                    int bankId = accountsDAO.getObject(accountId).getBankId();
+                    Account account1 = new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId);
                     if(accountBalance >= withdraw){
                         accountBalance = accountBalance - withdraw;
                         log.info("You have 10 seconds to collect the money.");
-                        accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber));
+                        accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId));
                         log.info("Your new balance is: "+accountBalance);
                     }else{
                         log.info("Insufficient balance.");
@@ -66,11 +68,13 @@ public class App {
                     double accountBalance = accountsDAO.getObject(accountId).getBalance();
                     String fullName1 = accountsDAO.getObject(accountId).getFullName();
                     int cardNumber = accountsDAO.getObject(accountId).getCardNumber();
-                    Account account1 = new Account(accountId,accountBalance,fullName1,cardNumber);
+                    int userId = accountsDAO.getObject(accountId).getUserId();
+                    int bankId = accountsDAO.getObject(accountId).getBankId();
+                    Account account1 = new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId);
 
                     if(deposit >= 0){
                     accountBalance = accountBalance + deposit;
-                    accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber));
+                    accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId));
                     log.info("Your new balance is: "+accountBalance);
                     }else{
                         log.info("Invalid operation.");
@@ -113,8 +117,11 @@ public class App {
                     User newUser = new User(idAccounts,user,pass);
                     IUserDAO userDAO = new UserImpl();
                     userDAO.insert(newUser);
-                    Account newAccount = new Account(idAccounts,accountBalance,fullName,cardNumber,idAccounts,);
                     IAccountsDAO accountsDAO = new AccountsImpl();
+                    int userId = idAccounts;
+                    int bankId = random.nextInt(1-2);
+                    Account newAccount = new Account(idAccounts,accountBalance,fullName,cardNumber,userId,bankId);
+
                     accountsDAO.insert(newAccount);
                     log.info(accountsDAO.getObject(idAccounts).toString());
                 }catch (SQLException e){

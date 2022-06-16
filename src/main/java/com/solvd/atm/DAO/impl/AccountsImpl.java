@@ -14,11 +14,11 @@ import java.util.List;
 
 public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
 
-    private final static String INSERT = "INSERT INTO Accounts(idAccounts, balance, fullName, cardNumber, user_id, bank_id) VALUES (?,?,?,?,?,?) ";
-    private final static String UPDATE = "UPDATE Accounts SET balance = ?, fullName = ?, cardNumber = ? WHERE idAccounts = ?";
+    private final static String INSERT = "INSERT INTO Accounts(idAccounts, balance, fullName, userId, bankId, cardNumber) VALUES (?,?,?,?,?,?) ";
+    private final static String UPDATE = "UPDATE Accounts SET balance = ?, fullName = ?, userId = ?, bankId = ?, cardNumber = ? WHERE idAccounts = ?";
     private final static String DELETE = "DELETE FROM Accounts where idAccounts = ?";
-    private final static String GET_ALL = "SELECT idAccounts, balance, fullName, cardNumber FROM Accounts";
-    private final static String GET_ONE = "SELECT idAccounts, balance, fullName, cardNumber FROM Accounts WHERE idAccounts = ?";
+    private final static String GET_ALL = "SELECT idAccounts, balance, fullName, cardNumber, userId, bankId FROM Accounts";
+    private final static String GET_ONE = "SELECT idAccounts, balance, fullName, cardNumber, userId, bankId FROM Accounts WHERE idAccounts = ?";
 
 
     @Override
@@ -59,7 +59,9 @@ public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
             stat.setDouble(1,a.getBalance());
             stat.setString(2,a.getFullName());
             stat.setInt(3,a.getCardNumber());
-            stat.setInt(4,a.getIdAccounts());
+            stat.setInt(4,a.getUserId());
+            stat.setInt(5,a.getBankId());
+            stat.setInt(6,a.getIdAccounts());
             if(stat.executeUpdate() == 0 ){
                 throw new DAOException("It may not have saved");
             }
@@ -107,9 +109,9 @@ public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
         int idAccounts = rs.getInt("idAccounts");
         double balance = rs.getDouble("balance");
         String fullName = rs.getString("fullName");
+        int userId = rs.getInt("userId");
+        int bankId = rs.getInt("bankId");
         int cardNumber = rs.getInt("cardNumber");
-        int userId = rs.getInt("user_id");
-        int bankId = rs.getInt("bank_id");
         Account account = new Account(idAccounts, balance, fullName, cardNumber,userId,bankId);
         return account;
     }
