@@ -15,7 +15,7 @@ public class DBPropertiesUtil {
 
     private DBPropertiesUtil() {
         try {
-            properties.load(new FileReader(new File("ATMTerminal/src/main/resources/db.properties")));
+            properties.load(new FileReader(new File("src/main/resources/db.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
