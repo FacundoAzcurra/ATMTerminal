@@ -24,23 +24,23 @@ public class UserImpl extends AbstractDAO implements IUserDAO {
     public void insert(User a) throws DAOException, ConnectException {
         PreparedStatement stat = null;
         Connection conn = getConnection();
-        try{
+        try {
             stat = conn.prepareStatement(INSERT);
-            stat.setInt(1,a.getUserId());
-            stat.setString(2,a.getUsername());
-            stat.setString(3,a.getPassword());
-            if(stat.executeUpdate() == 0 ){
+            stat.setInt(1, a.getUserId());
+            stat.setString(2, a.getUsername());
+            stat.setString(3, a.getPassword());
+            if (stat.executeUpdate() == 0) {
                 throw new DAOException("It may not have saved");
             }
         } catch (SQLException e) {
-            throw new DAOException("SQL ERROR",e);
+            throw new DAOException("SQL ERROR", e);
         } finally {
             returnConnection(conn);
-            if (stat != null){
-                try{
+            if (stat != null) {
+                try {
                     stat.close();
-                } catch (SQLException e){
-                    throw new DAOException("SQL ERROR",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL ERROR", e);
                 }
             }
         }
@@ -50,23 +50,23 @@ public class UserImpl extends AbstractDAO implements IUserDAO {
     public void update(User a) throws DAOException, ConnectException {
         PreparedStatement stat = null;
         Connection conn = getConnection();
-        try{
+        try {
             stat = conn.prepareStatement(UPDATE);
-            stat.setString(1,a.getUsername());
-            stat.setString(2,a.getPassword());
-            stat.setInt(3,a.getUserId());
-            if(stat.executeUpdate() == 0 ){
+            stat.setString(1, a.getUsername());
+            stat.setString(2, a.getPassword());
+            stat.setInt(3, a.getUserId());
+            if (stat.executeUpdate() == 0) {
                 throw new DAOException("It may not have saved");
             }
         } catch (SQLException e) {
-            throw new DAOException("SQL ERROR",e);
+            throw new DAOException("SQL ERROR", e);
         } finally {
             returnConnection(conn);
-            if (stat != null){
-                try{
+            if (stat != null) {
+                try {
                     stat.close();
-                } catch (SQLException e){
-                    throw new DAOException("SQL ERROR",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL ERROR", e);
                 }
             }
         }
@@ -77,34 +77,34 @@ public class UserImpl extends AbstractDAO implements IUserDAO {
     public void delete(int a) throws DAOException, ConnectException {
         PreparedStatement stat = null;
         Connection conn = getConnection();
-        try{
+        try {
             stat = conn.prepareStatement(DELETE);
-            stat.setInt(1,a);
+            stat.setInt(1, a);
 
-            if(stat.executeUpdate() == 0 ){
+            if (stat.executeUpdate() == 0) {
                 throw new DAOException("It may not have saved");
             }
 
         } catch (SQLException e) {
-            throw new DAOException("SQL ERROR",e);
+            throw new DAOException("SQL ERROR", e);
         } finally {
             returnConnection(conn);
-            if (stat != null){
-                try{
+            if (stat != null) {
+                try {
                     stat.close();
-                } catch (SQLException e){
-                    throw new DAOException("SQL ERROR",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL ERROR", e);
                 }
             }
         }
 
     }
 
-    private User convert (ResultSet rs) throws SQLException {
+    private User convert(ResultSet rs) throws SQLException {
         int userId = rs.getInt("id_user");
         String username = rs.getString("username");
         String pass = rs.getString("password");
-        User user = new User(userId,username,pass);
+        User user = new User(userId, username, pass);
         return user;
     }
 
@@ -114,31 +114,32 @@ public class UserImpl extends AbstractDAO implements IUserDAO {
         ResultSet rs = null;
         List<User> userList = new ArrayList<>();
         Connection conn = getConnection();
-        try{
+        try {
             stat = conn.prepareStatement(GET_ALL);
             rs = stat.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 userList.add(convert(rs));
             }
         } catch (SQLException e) {
-            throw new DAOException("SQL Error.",e);
+            throw new DAOException("SQL Error.", e);
         } finally {
             returnConnection(conn);
-            if(rs!=null){
-                try{
+            if (rs != null) {
+                try {
                     rs.close();
-                }catch (SQLException e){
-                    throw new DAOException("SQL Error.",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL Error.", e);
                 }
             }
-            if (stat != null){
+            if (stat != null) {
                 try {
                     stat.close();
-                } catch (SQLException e){
-                    throw new DAOException("SQL Error.",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL Error.", e);
                 }
             }
-        } return userList;
+        }
+        return userList;
     }
 
     @Override
@@ -147,9 +148,9 @@ public class UserImpl extends AbstractDAO implements IUserDAO {
         ResultSet rs = null;
         User a = null;
         Connection conn = getConnection();
-        try{
+        try {
             stat = conn.prepareStatement(GET_ONE);
-            stat.setInt(1,id);
+            stat.setInt(1, id);
             rs = stat.executeQuery();
             if (rs.next()) {
                 a = convert(rs);
@@ -159,24 +160,25 @@ public class UserImpl extends AbstractDAO implements IUserDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("SQL Error.",e);
+            throw new DAOException("SQL Error.", e);
         } finally {
             returnConnection(conn);
-            if(rs!=null){
-                try{
+            if (rs != null) {
+                try {
                     rs.close();
-                }catch (SQLException e){
-                    throw new DAOException("SQL Error.",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL Error.", e);
                 }
             }
-            if (stat != null){
+            if (stat != null) {
                 try {
                     stat.close();
-                } catch (SQLException e){
-                    throw new DAOException("SQL Error.",e);
+                } catch (SQLException e) {
+                    throw new DAOException("SQL Error.", e);
                 }
             }
-        } return a;
+        }
+        return a;
     }
-    }
+}
 
