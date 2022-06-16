@@ -5,6 +5,7 @@ import com.solvd.atm.DAO.IUserDAO;
 import com.solvd.atm.DAO.impl.AccountsImpl;
 import com.solvd.atm.DAO.impl.UserImpl;
 import com.solvd.atm.bin.Account;
+import com.solvd.atm.bin.Services;
 import com.solvd.atm.bin.User;
 import com.solvd.atm.util.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -24,9 +25,9 @@ public class App {
         Scanner sc = new Scanner(System.in);
 
         log.info("Welcome to CCA ATM terminal:");
-
+        while(true){
         log.info("Select the desired operation");
-        log.info("// 1. Withdraw. // 2.Deposit. // 3.Check Account. // 4.Pay bills. // 5. Create new bank Account //");
+        log.info("// 1. Withdraw. // 2.Deposit. // 3.Check Account. // 4.Pay bills. // 5. Create new bank Account // 6. Exit //");
 
         int choice = sc.nextInt();
         switch (choice){
@@ -99,6 +100,99 @@ public class App {
                 }
                 break;
             case 4:
+                try (Connection conn = ConnectionPool.getInstance().getConnection()) {
+                    log.info("Enter your id: ");
+                    int accountId = sc.nextInt();
+                    IAccountsDAO accountsDAO = new AccountsImpl();
+                    double accountBalance = accountsDAO.getObject(accountId).getBalance();
+                    String fullName1 = accountsDAO.getObject(accountId).getFullName();
+                    int cardNumber = accountsDAO.getObject(accountId).getCardNumber();
+                    int userId = accountsDAO.getObject(accountId).getUserId();
+                    int bankId = accountsDAO.getObject(accountId).getBankId();
+                    log.info("Select the bill you want to pay");
+                    log.info("// 1. Rent bill // 2. Electric bill // 3. Gas bill // 4.Health Insurance bill //");
+                    int bill = sc.nextInt();
+                    switch (bill){
+                        case 1:
+                            Random random = new Random();
+                            int amount = random.nextInt(400);
+                            Services rent = new Services(1, "Real Estate", amount, accountId);
+                            log.info("The amount of the bill will be : " + rent.getAmount());
+                            log.info("If you want to pay press '1', If not press '2'");
+                            int paymentaccept = sc.nextInt();
+                            if (paymentaccept == 1){
+                                if(accountBalance >= amount){
+                                accountBalance = accountBalance - amount;
+                                log.info(rent.toString());
+                                log.info("Your new balance is : "+ accountBalance);
+                                accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId));
+                                }
+                            }else{
+                                log.info("Payment canceled.");
+                            }
+                            break;
+                        case 2:
+                            Random random1 = new Random();
+                            int amount1 = random1.nextInt(400);
+                            Services electricbill = new Services(2, "Edesur", amount1, accountId);
+                            log.info("The amount of the bill will be : " + electricbill.getAmount());
+                            log.info("If you want to pay press '1', If not press '2'");
+                            int paymentaccept1 = sc.nextInt();
+                            if (paymentaccept1 == 1){
+                                    if(accountBalance >= amount1){
+                            accountBalance = accountBalance - amount1;
+                            log.info(electricbill.toString());
+                            log.info("Your new balance is : "+ accountBalance);
+                            accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId));
+                                    }
+                            }else{
+                            log.info("Payment canceled.");
+                            }
+                            break;
+                        case 3:
+                            Random random2 = new Random();
+                            int amount2 = random2.nextInt(400);
+                            Services gasbill = new Services(3, "Metrogas", amount2, accountId);
+                            log.info("The amount of the bill will be : " + gasbill.getAmount());
+                            log.info("If you want to pay press '1', If not press '2'");
+                            int paymentaccept2 = sc.nextInt();
+                            if (paymentaccept2 == 1){
+                                if(accountBalance >= amount2){
+                                accountBalance = accountBalance - amount2;
+                                log.info(gasbill.toString());
+                                log.info("Your new balance is : "+ accountBalance);
+                                accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId));
+                                }
+                            }else{
+                                log.info("Payment canceled.");
+                            }
+                            break;
+                        case 4:
+                            Random random3 = new Random();
+                            int amount3 = random3.nextInt(400);
+                            Services health = new Services(1, "Galeno", amount3, accountId);
+                            log.info("The amount of the bill will be : " + health.getAmount());
+                            log.info("If you want to pay press '1', If not press '2'");
+                            int paymentaccept3 = sc.nextInt();
+                            if (paymentaccept3 == 1){
+                                if(accountBalance >= amount3){
+                                    accountBalance = accountBalance - amount3;
+                                    log.info(health.toString());
+                                    log.info("Your new balance is : "+ accountBalance);
+                                    accountsDAO.update(new Account(accountId,accountBalance,fullName1,cardNumber,userId,bankId));
+                                }
+                            }else{
+                                log.info("Payment canceled.");
+                            }
+                            break;
+                        default:
+                            throw new IllegalStateException("Not valid option.");
+                    }
+                } catch (SQLException e) {
+                    log.error(e);
+                } catch (ConnectException e) {
+                    log.error(e);
+                }
                 break;
             case 5:
                 try(Connection conn = ConnectionPool.getInstance().getConnection()){
@@ -128,8 +222,12 @@ public class App {
                     log.error(e);
                 }
                 break;
+            case 6:
+                System.exit(0);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + choice);
         }
+}
 }
 }

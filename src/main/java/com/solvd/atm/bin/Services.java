@@ -5,13 +5,13 @@ import java.util.Objects;
 public class Services {
     private int serviceId;
     private String serviceName;
-    private int amount;
+    private double amount;
     private int accountNumber;
 
     public Services(){
     }
 
-    public Services(int serviceId, String serviceName, int amount, int accountNumber) {
+    public Services(int serviceId, String serviceName, double amount, int accountNumber) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.amount = amount;
@@ -34,11 +34,11 @@ public class Services {
         this.serviceName = serviceName;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -65,11 +65,8 @@ public class Services {
 
     @Override
     public String toString() {
-        return "Services{" +
-                "serviceId=" + serviceId +
-                ", serviceName='" + serviceName + '\'' +
-                ", amount=" + amount +
-                ", accountNumber=" + accountNumber +
-                '}';
+        return serviceName+ ": " + "service with serial number id: " + serviceId + ".\n" +
+                "The amount will be: " + amount + ".\n" +
+                "Will credit from account number: " + accountNumber;
     }
 }
