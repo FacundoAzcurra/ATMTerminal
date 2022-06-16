@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
 
-    private final static String INSERT = "INSERT INTO Accounts(idAccounts, balance, fullName, cardNumber) VALUES (?,?,?,?) ";
+    private final static String INSERT = "INSERT INTO Accounts(idAccounts, balance, fullName, cardNumber, user_id, bank_id) VALUES (?,?,?,?,?,?) ";
     private final static String UPDATE = "UPDATE Accounts SET balance = ?, fullName = ?, cardNumber = ? WHERE idAccounts = ?";
     private final static String DELETE = "DELETE FROM Accounts where idAccounts = ?";
     private final static String GET_ALL = "SELECT idAccounts, balance, fullName, cardNumber FROM Accounts";
@@ -31,6 +31,8 @@ public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
             stat.setDouble(2,a.getBalance());
             stat.setString(3,a.getFullName());
             stat.setInt(4,a.getCardNumber());
+            stat.setInt(5,a.getUserId());
+            stat.setInt(6,a.getBankId());
             if(stat.executeUpdate() == 0 ){
                 throw new DAOException("It may not have saved");
             }
@@ -106,7 +108,9 @@ public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
         double balance = rs.getDouble("balance");
         String fullName = rs.getString("fullName");
         int cardNumber = rs.getInt("cardNumber");
-        Account account = new Account(idAccounts, balance, fullName, cardNumber);
+        int userId = rs.getInt("user_id");
+        int bankId = rs.getInt("bank_id");
+        Account account = new Account(idAccounts, balance, fullName, cardNumber,userId,bankId);
         return account;
     }
 

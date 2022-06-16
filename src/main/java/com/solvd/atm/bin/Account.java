@@ -7,15 +7,35 @@ public class Account {
     double balance;
     String fullName;
     int cardNumber;
+    int userId;
+    int bankId;
 
     public Account() {
     }
 
-    public Account(int idAccounts, double balance, String fullName,int cardNumber) {
+    public Account(int idAccounts, double balance, String fullName, int cardNumber, int userId, int bankId) {
         this.idAccounts = idAccounts;
         this.balance = balance;
         this.fullName = fullName;
         this.cardNumber = cardNumber;
+        this.userId = userId;
+        this.bankId = bankId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
     }
 
     public int getCardNumber() {
@@ -65,11 +85,10 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "idAccounts=" + idAccounts +
-                ", balance=" + balance +
-                ", fullName='" + fullName + '\'' +
-                ", cardNumber=" + cardNumber +
-                '}';
+        return "Account required: " +
+                "Account id=" + idAccounts +
+                ", current balance=" + balance +
+                ", name='" + fullName + '\'' +
+                ", card number=" + cardNumber;
     }
 }

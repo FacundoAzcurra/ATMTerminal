@@ -1,8 +1,11 @@
 package com.solvd.atm;
 
 import com.solvd.atm.DAO.IAccountsDAO;
+import com.solvd.atm.DAO.IUserDAO;
 import com.solvd.atm.DAO.impl.AccountsImpl;
+import com.solvd.atm.DAO.impl.UserImpl;
 import com.solvd.atm.bin.Account;
+import com.solvd.atm.bin.User;
 import com.solvd.atm.util.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class App {
@@ -19,35 +23,19 @@ public class App {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-
-
-        log.info("Welcome to CCA ATM terminal. Please enter your ID number :");
-
-        int accountId = sc.nextInt();
-        try (Connection conn = ConnectionPool.getInstance().getConnection()) {
-            IAccountsDAO accountsDAO = new AccountsImpl();
-            log.info(accountsDAO.getObject(accountId));
-            if (conn != null) {
-                log.info("Logging in...");
-            } else {
-                log.info("Connection error.");
-                log.info("Closing connection...");
-            }
-        } catch (SQLException e) {
-            log.error(e);
-        } catch (ConnectException e) {
-            log.error(e);
-        }
+        log.info("Welcome to CCA ATM terminal:");
 
         log.info("Select the desired operation");
-        log.info("// 1. Withdraw. // 2.Deposit. // 3.Check Account. // 4.Pay bills. // 5.Exit. // 6. Create new bank Account //");
+        log.info("// 1. Withdraw. // 2.Deposit. // 3.Check Account. // 4.Pay bills. // 5. Create new bank Account //");
 
         int choice = sc.nextInt();
         switch (choice){
             case 1:
-                log.info("Enter the amount to withdraw.");
-                int withdraw = sc.nextInt();
                 try (Connection conn = ConnectionPool.getInstance().getConnection()) {
+                    log.info("Enter your id: ");
+                    int accountId = sc.nextInt();
+                    log.info("Enter the amount to withdraw.");
+                    int withdraw = sc.nextInt();
                     IAccountsDAO accountsDAO = new AccountsImpl();
                     double accountBalance = accountsDAO.getObject(accountId).getBalance();
                     String fullName1 = accountsDAO.getObject(accountId).getFullName();
@@ -68,11 +56,12 @@ public class App {
                     log.error(e);
                 }
                 break;
-
             case 2:
-                log.info("Enter the amount to deposit.");
-                int deposit = sc.nextInt();
                 try (Connection conn = ConnectionPool.getInstance().getConnection()) {
+                    log.info("Enter your id: ");
+                    int accountId = sc.nextInt();
+                    log.info("Enter the amount to deposit.");
+                    int deposit = sc.nextInt();
                     IAccountsDAO accountsDAO = new AccountsImpl();
                     double accountBalance = accountsDAO.getObject(accountId).getBalance();
                     String fullName1 = accountsDAO.getObject(accountId).getFullName();
@@ -93,7 +82,47 @@ public class App {
                 }
                 break;
             case 3:
-
+                try (Connection conn = ConnectionPool.getInstance().getConnection()) {
+                    log.info("Enter your id: ");
+                    int accountId = sc.nextInt();
+                    IAccountsDAO accountsDAO = new AccountsImpl();
+                    log.info("This is your current account status: ");
+                    log.info(accountsDAO.getObject(accountId).toString());
+                } catch (SQLException e) {
+                    log.error(e);
+                } catch (ConnectException e) {
+                    log.error(e);
+                }
+                break;
+            case 4:
+                break;
+            case 5:
+                try(Connection conn = ConnectionPool.getInstance().getConnection()){
+                    log.info("Creating new account process started...");
+                    log.info("Enter your full name without spaces(firstNamelastName) : ");
+                    String fullName = sc.next();
+                    log.info("Enter your id: ");
+                    int idAccounts = sc.nextInt();
+                    log.info("Enter your desired username: ");
+                    String user = sc.next();
+                    log.info("Enter your desired password: ");
+                    String pass = sc.next();
+                    double accountBalance = 0;
+                    Random random = new Random();
+                    int cardNumber = random.nextInt(1000);
+                    User newUser = new User(idAccounts,user,pass);
+                    IUserDAO userDAO = new UserImpl();
+                    userDAO.insert(newUser);
+                    Account newAccount = new Account(idAccounts,accountBalance,fullName,cardNumber,idAccounts,);
+                    IAccountsDAO accountsDAO = new AccountsImpl();
+                    accountsDAO.insert(newAccount);
+                    log.info(accountsDAO.getObject(idAccounts).toString());
+                }catch (SQLException e){
+                    log.error(e);
+                }catch (ConnectException e){
+                    log.error(e);
+                }
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + choice);
         }
