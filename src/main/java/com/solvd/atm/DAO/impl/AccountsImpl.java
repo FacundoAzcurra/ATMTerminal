@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AccountsImpl extends AbstractDAO implements IAccountsDAO {
 
-    private final static String INSERT = "INSERT INTO Accounts(idAccounts, balance, fullName, userId, bankId, cardNumber) VALUES (?,?,?,?,?,?) ";
+    private final static String INSERT = "INSERT INTO Accounts(idAccounts, balance, fullName, cardNumber, userId, bankId) VALUES (?,?,?,?,?,?) ";
     private final static String UPDATE = "UPDATE Accounts SET balance = ?, fullName = ?, userId = ?, bankId = ?, cardNumber = ? WHERE idAccounts = ?";
     private final static String DELETE = "DELETE FROM Accounts where idAccounts = ?";
     private final static String GET_ALL = "SELECT idAccounts, balance, fullName, cardNumber, userId, bankId FROM Accounts";

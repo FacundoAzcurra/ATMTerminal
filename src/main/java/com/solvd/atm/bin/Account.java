@@ -85,10 +85,10 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account required: " +
-                "Account id=" + idAccounts +
-                ", current balance=" + balance +
-                ", name='" + fullName + '\'' +
-                ", card number=" + cardNumber;
+        return "Account consulted: " +
+                "Id:" + idAccounts +
+                ", Current balance:" + balance +
+                ", Name:'" + fullName + '\'' +
+                ", Card number:" + cardNumber;
     }
 }

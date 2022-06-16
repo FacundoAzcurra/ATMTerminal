@@ -108,21 +108,19 @@ public class App {
                     log.info("Enter your id: ");
                     int idAccounts = sc.nextInt();
                     log.info("Enter your desired username: ");
-                    String user = sc.next();
+                    String username = sc.next();
                     log.info("Enter your desired password: ");
                     String pass = sc.next();
                     double accountBalance = 0;
                     Random random = new Random();
-                    int cardNumber = random.nextInt(1000);
-                    User newUser = new User(idAccounts,user,pass);
+                    int cardNumber = random.nextInt(4000000);
+                    User newUser = new User(idAccounts,username,pass);
                     IUserDAO userDAO = new UserImpl();
                     userDAO.insert(newUser);
                     IAccountsDAO accountsDAO = new AccountsImpl();
                     int userId = idAccounts;
-                    int bankId = random.nextInt(1-2);
-                    Account newAccount = new Account(idAccounts,accountBalance,fullName,cardNumber,userId,bankId);
-
-                    accountsDAO.insert(newAccount);
+                    int bankId = 1;
+                    accountsDAO.insert(new Account(idAccounts,accountBalance,fullName,cardNumber,userId,bankId));
                     log.info(accountsDAO.getObject(idAccounts).toString());
                 }catch (SQLException e){
                     log.error(e);
