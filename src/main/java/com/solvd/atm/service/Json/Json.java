@@ -1,4 +1,4 @@
-package com.solvd.atm.service;
+package com.solvd.atm.service.Json;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
