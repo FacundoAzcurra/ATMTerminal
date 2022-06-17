@@ -1,14 +1,33 @@
 package com.solvd.atm.bin.common;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.solvd.atm.bin.Employee;
+
 import java.sql.Date;
 import java.util.Objects;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+
+        property = "personType"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Employee.class, name = "Employee"),
+})
 
 public abstract class Person {
-
+    @JsonProperty
     private String firstName;
+    @JsonProperty
     private String lastName;
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "mm/dd/yyyy")
     private Date birthday;
+    @JsonProperty
     private char sex;
 
     public Person() {

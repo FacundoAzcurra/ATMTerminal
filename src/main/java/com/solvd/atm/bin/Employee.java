@@ -1,5 +1,6 @@
 package com.solvd.atm.bin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.solvd.atm.bin.common.Person;
 
 import java.sql.Date;
@@ -7,7 +8,9 @@ import java.util.Objects;
 
 public class Employee extends Person {
 
+    @JsonProperty
     private int employeeId;
+    @JsonProperty
     private int bankId;
 
     public Employee() {

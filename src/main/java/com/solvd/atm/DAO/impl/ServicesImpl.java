@@ -28,7 +28,7 @@ public class ServicesImpl extends AbstractDAO implements IServicesDAO {
         Connection conn = getConnection();
         try {
             stat = conn.prepareStatement(UPDATE);
-            stat.setInt(1, a.getAmount());
+            stat.setDouble(1, a.getAmount());
             if (stat.executeUpdate() == 0) {
                 throw new DAOException("It may not have saved");
             }

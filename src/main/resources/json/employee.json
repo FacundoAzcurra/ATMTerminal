@@ -1,0 +1,30 @@
+
+[
+  {
+    "personType": "Employee",
+    "employeeId": 4,
+    "firstName": "Juana",
+    "lastName": "Fernandez",
+    "sex" : "f",
+    "bankId" : "1",
+    "birthday" : "16/06/2000"
+  },
+  {
+    "personType": "Employee",
+    "employeeId": 5,
+    "firstName": "Esteban",
+    "lastName": "Gonzales",
+    "sex" : "m",
+    "bankId" : "1",
+    "birthday" : "14/03/1994"
+  },
+  {
+    "personType": "Employee",
+    "employeeId": 6,
+    "firstName": "Jeff",
+    "lastName": "Musk",
+    "sex" : "m",
+    "bankId" : "1",
+    "birthday" : "27/5/1982"
+  }
+]
