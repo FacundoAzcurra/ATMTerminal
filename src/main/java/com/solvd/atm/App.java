@@ -1,14 +1,13 @@
 package com.solvd.atm;
 
-import com.solvd.atm.DAO.IAccountsDAO;
-import com.solvd.atm.DAO.IUserDAO;
-import com.solvd.atm.DAO.impl.AccountsImpl;
-import com.solvd.atm.DAO.impl.UserImpl;
 import com.solvd.atm.bin.Account;
 import com.solvd.atm.bin.Employee;
 import com.solvd.atm.bin.Services;
 import com.solvd.atm.bin.User;
-import com.solvd.atm.bin.common.Person;
+import com.solvd.atm.service.IAccountsService;
+import com.solvd.atm.service.IUserService;
+import com.solvd.atm.service.jdbc.AccountsServiceImpl;
+import com.solvd.atm.service.jdbc.UserServiceImpl;
 import com.solvd.atm.util.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,12 +42,12 @@ public class App {
                         int accountId = sc.nextInt();
                         log.info("Enter the amount to withdraw.");
                         int withdraw = sc.nextInt();
-                        IAccountsDAO accountsDAO = new AccountsImpl();
-                        double accountBalance = accountsDAO.getObject(accountId).getBalance();
-                        String fullName1 = accountsDAO.getObject(accountId).getFullName();
-                        int cardNumber = accountsDAO.getObject(accountId).getCardNumber();
-                        int userId = accountsDAO.getObject(accountId).getUserId();
-                        int bankId = accountsDAO.getObject(accountId).getBankId();
+                        IAccountsService accountsDAO = new AccountsServiceImpl();
+                        double accountBalance = accountsDAO.getAccount(accountId).getBalance();
+                        String fullName1 = accountsDAO.getAccount(accountId).getFullName();
+                        int cardNumber = accountsDAO.getAccount(accountId).getCardNumber();
+                        int userId = accountsDAO.getAccount(accountId).getUserId();
+                        int bankId = accountsDAO.getAccount(accountId).getBankId();
                         Account account1 = new Account(accountId, accountBalance, fullName1, cardNumber, userId, bankId);
                         if (accountBalance >= withdraw) {
                             accountBalance = accountBalance - withdraw;
@@ -71,12 +70,12 @@ public class App {
                         int accountId = sc.nextInt();
                         log.info("Enter the amount to deposit.");
                         int deposit = sc.nextInt();
-                        IAccountsDAO accountsDAO = new AccountsImpl();
-                        double accountBalance = accountsDAO.getObject(accountId).getBalance();
-                        String fullName1 = accountsDAO.getObject(accountId).getFullName();
-                        int cardNumber = accountsDAO.getObject(accountId).getCardNumber();
-                        int userId = accountsDAO.getObject(accountId).getUserId();
-                        int bankId = accountsDAO.getObject(accountId).getBankId();
+                        IAccountsService accountsDAO = new AccountsServiceImpl();
+                        double accountBalance = accountsDAO.getAccount(accountId).getBalance();
+                        String fullName1 = accountsDAO.getAccount(accountId).getFullName();
+                        int cardNumber = accountsDAO.getAccount(accountId).getCardNumber();
+                        int userId = accountsDAO.getAccount(accountId).getUserId();
+                        int bankId = accountsDAO.getAccount(accountId).getBankId();
                         Account account1 = new Account(accountId, accountBalance, fullName1, cardNumber, userId, bankId);
 
                         if (deposit >= 0) {
@@ -96,9 +95,9 @@ public class App {
                     try (Connection conn = ConnectionPool.getInstance().getConnection()) {
                         log.info("Enter your id: ");
                         int accountId = sc.nextInt();
-                        IAccountsDAO accountsDAO = new AccountsImpl();
+                        IAccountsService accountsDAO = new AccountsServiceImpl();
                         log.info("This is your current account status: ");
-                        log.info(accountsDAO.getObject(accountId).toString());
+                        log.info(accountsDAO.getAccount(accountId).toString());
                     } catch (SQLException e) {
                         log.error(e);
                     } catch (ConnectException e) {
@@ -109,12 +108,12 @@ public class App {
                     try (Connection conn = ConnectionPool.getInstance().getConnection()) {
                         log.info("Enter your id: ");
                         int accountId = sc.nextInt();
-                        IAccountsDAO accountsDAO = new AccountsImpl();
-                        double accountBalance = accountsDAO.getObject(accountId).getBalance();
-                        String fullName1 = accountsDAO.getObject(accountId).getFullName();
-                        int cardNumber = accountsDAO.getObject(accountId).getCardNumber();
-                        int userId = accountsDAO.getObject(accountId).getUserId();
-                        int bankId = accountsDAO.getObject(accountId).getBankId();
+                        IAccountsService accountsDAO = new AccountsServiceImpl();
+                        double accountBalance = accountsDAO.getAccount(accountId).getBalance();
+                        String fullName1 = accountsDAO.getAccount(accountId).getFullName();
+                        int cardNumber = accountsDAO.getAccount(accountId).getCardNumber();
+                        int userId = accountsDAO.getAccount(accountId).getUserId();
+                        int bankId = accountsDAO.getAccount(accountId).getBankId();
                         log.info("Select the bill you want to pay");
                         log.info("// 1. Rent bill // 2. Electric bill // 3. Gas bill // 4.Health Insurance bill //");
                         int bill = sc.nextInt();
@@ -215,13 +214,13 @@ public class App {
                         Random random = new Random();
                         int cardNumber = random.nextInt(4000000);
                         User newUser = new User(idAccounts, username, pass);
-                        IUserDAO userDAO = new UserImpl();
-                        userDAO.insert(newUser);
-                        IAccountsDAO accountsDAO = new AccountsImpl();
+                        IUserService userDAO = new UserServiceImpl();
+                        userDAO.create(newUser);
+                        IAccountsService accountsDAO = new AccountsServiceImpl();
                         int userId = idAccounts;
                         int bankId = 1;
-                        accountsDAO.insert(new Account(idAccounts, accountBalance, fullName, cardNumber, userId, bankId));
-                        log.info(accountsDAO.getObject(idAccounts).toString());
+                        accountsDAO.create(new Account(idAccounts, accountBalance, fullName, cardNumber, userId, bankId));
+                        log.info(accountsDAO.getAccount(idAccounts).toString());
                     } catch (SQLException e) {
                         log.error(e);
                     } catch (ConnectException e) {
